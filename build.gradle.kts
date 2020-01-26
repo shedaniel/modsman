@@ -7,8 +7,6 @@ plugins {
     idea
 }
 
-version = "0.21"
-
 allprojects {
     repositories {
         jcenter()
@@ -21,7 +19,7 @@ allprojects {
 
 subprojects {
     group = "modsman"
-    version = version
+    version = "0.21"
 }
 
 configure<IdeaModel> {
