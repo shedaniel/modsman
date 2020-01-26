@@ -2,30 +2,21 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm")
-    application
 }
 
 dependencies {
-    api(project(":modsman-core"))
-    api(group = "com.beust", name = "jcommander", version = "1.71")
-}
-
-val compileJava = tasks.getByName<JavaCompile>("compileJava") {
-    doFirst {
-        options.compilerArgs = listOf("--module-path", classpath.asPath)
-        classpath = files()
-    }
+    compile(project(":modsman-core"))
+    compile(group = "com.beust", name = "jcommander", version = "1.71")
 }
 
 val compileKotlin = tasks.getByName<KotlinCompile>("compileKotlin") {
     kotlinOptions.jvmTarget = "1.8"
-    destinationDir = compileJava.destinationDir
 }
 
-val jar = tasks.getByName<Jar>("jar") {
+tasks.withType<Jar> {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-}
-
-application {
-    mainClassName = "modsman.cli.MainKt"
+    manifest {
+        attributes["Main-Class"] = "modsman.cli.MainKt"
+    }
+    from(configurations.compile.get().map { if (it.isDirectory) it else zipTree(it) })
 }

@@ -51,7 +51,7 @@ class Modsman(
     }
 
     private fun readToBytes(jarPath: Path): ByteArray {
-        return Files.newInputStream(jarPath).use { it.readAllBytes() }
+        return Files.newInputStream(jarPath).use { it.readBytes() }
     }
 
     private suspend fun fingerprint(jarPath: Path): Long {

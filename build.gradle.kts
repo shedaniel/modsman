@@ -3,23 +3,25 @@ import org.gradle.plugins.ide.idea.model.IdeaModel
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.3.31" apply false
+    kotlin("jvm") version "1.3.61" apply false
     idea
-    id("com.palantir.git-version") version "0.11.0"
-    id("org.beryx.jlink") version "2.10.2" apply false
 }
 
-val gitVersion: groovy.lang.Closure<Any> by extra
+version = "0.21"
 
 allprojects {
     repositories {
         jcenter()
     }
+
+    tasks.withType<KotlinCompile> {
+        kotlinOptions.jvmTarget = "1.8"
+    }
 }
 
 subprojects {
     group = "modsman"
-    version = gitVersion()
+    version = version
 }
 
 configure<IdeaModel> {
